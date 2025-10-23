@@ -7,8 +7,7 @@
     "start": "node server.js",
     "dev": "nodemon server.js",
     "create-admin": "node scripts/createAdmin.js",
-    "add-books": "node scripts/addSampleBooks.js",
-    "postinstall": "npm run create-admin && npm run add-books"
+    "add-books": "node scripts/addSampleBooks.js"
   },
   "engines": {
     "node": ">=16.0.0",
