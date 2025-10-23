@@ -1,0 +1,29 @@
+extends ../layout
+
+block content
+  if member
+    .member-details
+      h2= member.name
+      p
+        strong Email: 
+        = member.email
+      p
+        strong Phone: 
+        = member.phone
+      p
+        strong Address: 
+        = member.address
+      p
+        strong Membership ID: 
+        = member.membershipId
+      p
+        strong Status: 
+        = member.isActive ? 'Active' : 'Inactive'
+      
+      .actions
+        form.inline-form(method='POST', action=`/members/${member._id}?_method=DELETE`)
+          button.btn.btn-danger(type='submit', onclick='return confirm("Delete this member? This cannot be undone.")') Delete Member
+        a.btn.btn-secondary(href='/members') Back to Members
+  else
+    .error Member not found
+    a.btn(href='/members') Back to Members

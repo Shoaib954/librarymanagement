@@ -1,0 +1,30 @@
+extends ../layout
+
+block content
+  if error
+    .alert.alert-error= error
+  
+  form(method='POST', action='/members')
+    .form-group
+      label(for='name') Full Name
+      input.form-control(type='text', name='name', required)
+    
+    .form-group
+      label(for='email') Email
+      input.form-control(type='email', name='email', required)
+    
+    .form-group
+      label(for='phone') Phone
+      input.form-control(type='tel', name='phone', required)
+    
+    .form-group
+      label(for='address') Address
+      textarea.form-control(name='address', rows='3', required)
+    
+    .form-group
+      label(for='password') Password
+      input.form-control(type='password', name='password', required)
+    
+    .form-actions
+      button.btn.btn-primary(type='submit') Add Member
+      a.btn.btn-secondary(href='/members') Cancel

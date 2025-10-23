@@ -1,0 +1,31 @@
+extends ../layout
+
+block content
+  .page-header
+    a.btn.btn-primary(href='/members/new') Add New Member
+  
+  if members.length > 0
+    table.data-table
+      thead
+        tr
+          th Name
+          th Email
+          th Phone
+          th Membership ID
+          th Status
+          th Actions
+      tbody
+        each member in members
+          tr
+            td= member.name
+            td= member.email
+            td= member.phone
+            td= member.membershipId
+            td= member.isActive ? 'Active' : 'Inactive'
+            td
+              a.btn.btn-sm(href=`/members/${member._id}`) View
+              form.inline-form(method='POST', action=`/members/${member._id}?_method=DELETE`)
+                button.btn.btn-sm.btn-danger(type='submit', onclick='return confirm("Delete this member? This cannot be undone.")') Delete
+  else
+    p.no-data No members found. 
+      a(href='/members/new') Add the first member.

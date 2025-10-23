@@ -1,0 +1,92 @@
+doctype html
+html
+  head
+    title= title
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', href='/css/style.css')
+    style.
+      .register-container { max-width: 500px; margin: 30px auto; padding: 30px; background: white; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+      .register-header { text-align: center; margin-bottom: 30px; }
+      .register-header h1 { color: #2c3e50; margin-bottom: 10px; }
+      .user-type { display: flex; gap: 10px; margin-bottom: 20px; }
+      .user-type label { flex: 1; text-align: center; padding: 10px; border: 2px solid #ddd; border-radius: 5px; cursor: pointer; transition: all 0.3s; }
+      .user-type label:hover { background: #f8f9fa; }
+      .user-type input[type="radio"] { display: none; }
+      .user-type input[type="radio"]:checked + span { background: #3498db !important; color: white !important; }
+      .user-type span { display: block; }
+  body
+    .register-container
+      .register-header
+        h1 📚 Registration
+        p Join our library community
+      
+      if error
+        .alert.alert-error= error
+      
+      form(method='POST', action='/auth/register')
+        .form-group
+          label Role
+          .user-type
+            label
+              input(type='radio', name='role', value='member', checked)
+              span Member
+            label
+              input(type='radio', name='role', value='faculty')
+              span Faculty
+        
+        .form-group
+          label(for='name') Full Name
+          input.form-control(type='text', name='name', required)
+        
+        .form-group
+          label(for='email') Email
+          input.form-control(type='email', name='email', required)
+        
+        .form-group
+          label(for='phone') Phone
+          input.form-control(type='tel', name='phone', required)
+        
+        .form-group
+          label(for='address') Address
+          textarea.form-control(name='address', rows='3', required)
+        
+        .form-group#departmentField(style='display:none')
+          label(for='department') Department
+          input.form-control(type='text', name='department')
+        
+        .form-group
+          label(for='password') Password
+          input.form-control(type='password', name='password', required, minlength='6')
+        
+        .form-actions
+          button.btn.btn-primary(type='submit') Register
+          a.btn.btn-secondary(href='/auth/login') Back to Login
+  
+  script.
+    // Initialize role selection styling
+    document.querySelectorAll('input[name="role"]').forEach(radio => {
+      radio.addEventListener('change', function() {
+        // Update styling
+        document.querySelectorAll('.user-type label').forEach(label => {
+          label.style.background = '';
+          label.style.color = '';
+        });
+        this.parentElement.style.background = '#3498db';
+        this.parentElement.style.color = 'white';
+        
+        // Show/hide department field
+        const departmentField = document.getElementById('departmentField');
+        if (this.value === 'faculty') {
+          departmentField.style.display = 'block';
+          departmentField.querySelector('input').required = true;
+        } else {
+          departmentField.style.display = 'none';
+          departmentField.querySelector('input').required = false;
+        }
+      });
+    });
+    
+    // Set initial state
+    document.querySelector('input[name="role"]:checked').parentElement.style.background = '#3498db';
+    document.querySelector('input[name="role"]:checked').parentElement.style.color = 'white';

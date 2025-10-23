@@ -1,0 +1,109 @@
+<div class="container">
+  <header class="header">
+    <h1>📚 Library Management System</h1>
+    <p>Angular Frontend with MEAN Stack</p>
+  </header>
+
+  <!-- Dashboard Stats -->
+  <section class="stats">
+    <div class="stat-card">
+      <h3>Total Books</h3>
+      <p>{{ stats.totalBooks }}</p>
+    </div>
+    <div class="stat-card">
+      <h3>Total Members</h3>
+      <p>{{ stats.totalMembers }}</p>
+    </div>
+    <div class="stat-card">
+      <h3>Active Issues</h3>
+      <p>{{ stats.activeIssues }}</p>
+    </div>
+  </section>
+
+  <!-- Add Book Form -->
+  <section class="card">
+    <h2>Add New Book</h2>
+    <div *ngIf="message" [class]="'message ' + messageType">{{ message }}</div>
+    
+    <form (ngSubmit)="addBook()" #bookForm="ngForm">
+      <div class="form-row">
+        <input 
+          type="text" 
+          [(ngModel)]="newBook.title" 
+          name="title"
+          placeholder="Book Title" 
+          required>
+        <input 
+          type="text" 
+          [(ngModel)]="newBook.author" 
+          name="author"
+          placeholder="Author Name" 
+          required>
+      </div>
+      <div class="form-row">
+        <input 
+          type="text" 
+          [(ngModel)]="newBook.isbn" 
+          name="isbn"
+          placeholder="ISBN Number" 
+          required>
+        <select 
+          [(ngModel)]="newBook.category" 
+          name="category"
+          required>
+          <option value="">Select Category</option>
+          <option value="Fiction">Fiction</option>
+          <option value="Non-Fiction">Non-Fiction</option>
+          <option value="Science">Science</option>
+          <option value="Technology">Technology</option>
+          <option value="History">History</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <input 
+          type="number" 
+          [(ngModel)]="newBook.totalCopies" 
+          name="totalCopies"
+          placeholder="Total Copies" 
+          min="1"
+          required>
+        <input 
+          type="number" 
+          [(ngModel)]="newBook.publishedYear" 
+          name="publishedYear"
+          placeholder="Published Year"
+          min="1900"
+          max="2024">
+      </div>
+      <button type="submit" [disabled]="!bookForm.form.valid">Add Book</button>
+    </form>
+  </section>
+
+  <!-- Books List -->
+  <section class="card">
+    <h2>Library Collection ({{ books.length }} books)</h2>
+    
+    <div *ngIf="books.length === 0" class="no-books">
+      No books found. Add your first book!
+    </div>
+    
+    <div class="books-grid" *ngIf="books.length > 0">
+      <div *ngFor="let book of books" class="book-card">
+        <div class="book-info">
+          <h3>{{ book.title }}</h3>
+          <p><strong>Author:</strong> {{ book.author }}</p>
+          <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+          <p><strong>Category:</strong> {{ book.category }}</p>
+          <p><strong>Copies:</strong> {{ book.availableCopies }}/{{ book.totalCopies }}</p>
+          <p *ngIf="book.publishedYear"><strong>Year:</strong> {{ book.publishedYear }}</p>
+        </div>
+        <div class="book-actions">
+          <span [class]="book.availableCopies > 0 ? 'status available' : 'status unavailable'">
+            {{ book.availableCopies > 0 ? 'Available' : 'Not Available' }}
+          </span>
+          <button class="delete-btn" (click)="deleteBook(book._id!)">Delete</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

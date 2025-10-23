@@ -1,0 +1,45 @@
+doctype html
+html
+  head
+    title Admin Registration - Library Management
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', href='/css/style.css')
+    style.
+      .register-container { max-width: 500px; margin: 30px auto; padding: 30px; background: white; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+      .register-header { text-align: center; margin-bottom: 30px; }
+      .register-header h1 { color: #2c3e50; margin-bottom: 10px; }
+      .admin-notice { background: #fff3cd; border: 1px solid #ffeaa7; color: #856404; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+  body
+    .register-container
+      .register-header
+        h1 🔐 Admin Registration
+        p Create administrator account
+      
+      .admin-notice
+        strong Notice: 
+        | This creates an administrator account with full system access.
+      
+      if error
+        .alert.alert-error= error
+      
+      form(method='POST', action='/auth/admin-register')
+        .form-group
+          label(for='username') Username
+          input.form-control(type='text', name='username', required)
+        
+        .form-group
+          label(for='email') Email
+          input.form-control(type='email', name='email', required)
+        
+        .form-group
+          label(for='password') Password
+          input.form-control(type='password', name='password', required, minlength='6')
+        
+        .form-group
+          label(for='confirmPassword') Confirm Password
+          input.form-control(type='password', name='confirmPassword', required, minlength='6')
+        
+        .form-actions
+          button.btn.btn-primary(type='submit') Create Admin Account
+          a.btn.btn-secondary(href='/auth/login') Back to Login

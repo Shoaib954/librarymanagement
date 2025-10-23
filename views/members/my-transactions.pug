@@ -1,0 +1,28 @@
+extends ../layout
+
+block content
+  if transactions.length > 0
+    table.data-table
+      thead
+        tr
+          th Book
+          th Category
+          th Issue Date
+          th Due Date
+          th Return Date
+          th Status
+          th Fine
+      tbody
+        each transaction in transactions
+          tr(class=transaction.status === 'overdue' ? 'overdue-row' : '')
+            td= transaction.book ? transaction.book.title : 'Book not found'
+            td= transaction.book ? transaction.book.category : 'N/A'
+            td= transaction.issueDate.toDateString()
+            td= transaction.dueDate.toDateString()
+            td= transaction.returnDate ? transaction.returnDate.toDateString() : '-'
+            td
+              span(class=`status-${transaction.status}`)= transaction.status
+            td $#{transaction.fine}
+  else
+    p.no-data You haven't borrowed any books yet. 
+      a(href='/books') Browse our collection!

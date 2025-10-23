@@ -1,0 +1,32 @@
+extends ../layout
+
+block content
+  if books.length > 0
+    .books-grid
+      each book in books
+        .book-card
+          .book-cover
+            if book.imageUrl
+              img(src=book.imageUrl, alt=book.title, onerror="this.style.display='none'; this.nextElementSibling.style.display='block'")
+              .book-initial(style="display:none")= book.title.charAt(0)
+            else
+              .book-initial= book.title.charAt(0)
+          .book-info
+            h3= book.title
+            p
+              strong Author: 
+              = book.author
+            p
+              strong Category: 
+              = book.category
+            p
+              strong Available: 
+              = book.availableCopies + '/' + book.totalCopies
+            if book.publishedYear
+              p
+                strong Year: 
+                = book.publishedYear
+            .book-status
+              span.available ✅ Available
+  else
+    p.no-data No books available for borrowing.

@@ -1,0 +1,70 @@
+doctype html
+html
+  head
+    title= title
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', href='/css/style.css')
+    style.
+      .login-container { max-width: 400px; margin: 50px auto; padding: 30px; background: white; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+      .login-header { text-align: center; margin-bottom: 30px; }
+      .login-header h1 { color: #2c3e50; margin-bottom: 10px; }
+      .user-type { display: flex; gap: 10px; margin-bottom: 20px; }
+      .user-type label { flex: 1; text-align: center; padding: 10px; border: 2px solid #ddd; border-radius: 5px; cursor: pointer; }
+      .user-type input[type="radio"] { display: none; }
+      .user-type input[type="radio"]:checked + span { background: #3498db; color: white; }
+  body
+    .login-container
+      .login-header
+        h1 📚 Library Management
+        p Please login to continue
+      
+      if error
+        .alert.alert-error= error
+      if success
+        .alert.alert-success= success
+      
+      form(method='POST', action='/auth/login')
+        .user-type
+          label
+            input(type='radio', name='userType', value='member', checked)
+            span Member
+          label
+            input(type='radio', name='userType', value='faculty')
+            span Faculty
+          label
+            input(type='radio', name='userType', value='admin')
+            span Admin
+        
+        .form-group
+          label(for='email') Email
+          input.form-control(type='email', name='email', required)
+        
+        .form-group
+          label(for='password') Password
+          input.form-control(type='password', name='password', required)
+        
+        .form-actions
+          button.btn.btn-primary(type='submit') Login
+        
+        .text-center
+          p Don't have an account?
+          p
+            a(href='/auth/register') Register
+            span  | 
+            a(href='/auth/admin-register') Admin Register
+  
+  script.
+    document.querySelectorAll('input[name="userType"]').forEach(radio => {
+      radio.addEventListener('change', function() {
+        document.querySelectorAll('.user-type label').forEach(label => {
+          label.style.background = '';
+          label.style.color = '';
+        });
+        this.parentElement.style.background = '#3498db';
+        this.parentElement.style.color = 'white';
+      });
+    });
+    // Set initial state
+    document.querySelector('input[name="userType"]:checked').parentElement.style.background = '#3498db';
+    document.querySelector('input[name="userType"]:checked').parentElement.style.color = 'white';

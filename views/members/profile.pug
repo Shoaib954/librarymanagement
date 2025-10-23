@@ -1,0 +1,28 @@
+extends ../layout
+
+block content
+  .profile-card
+    .profile-header
+      h2= member.name
+      p.membership-id Membership ID: #{member.membershipId}
+    
+    .profile-details
+      .detail-row
+        strong Email: 
+        span= member.email
+      .detail-row
+        strong Phone: 
+        span= member.phone
+      .detail-row
+        strong Address: 
+        span= member.address
+      .detail-row
+        strong Member Since: 
+        span= member.createdAt.toDateString()
+      .detail-row
+        strong Status: 
+        span(class=member.isActive ? 'status-active' : 'status-inactive')= member.isActive ? 'Active' : 'Inactive'
+    
+    .profile-actions
+      a.btn.btn-primary(href='/my-transactions') View My Transactions
+      a.btn.btn-secondary(href='/books') Browse Books

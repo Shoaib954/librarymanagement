@@ -1,0 +1,76 @@
+extends ../layout
+
+block content
+  if error
+    .alert.alert-error= error
+  
+  .loan-info
+    h3 Loan Periods by Category
+    ul
+      li Fiction: 14 days (2 weeks)
+      li Non-Fiction: 21 days (3 weeks)
+      li Science: 28 days (4 weeks)
+      li Technology: 28 days (4 weeks)
+      li History: 21 days (3 weeks)
+    p.fine-info Fine: $5 per day for overdue books (Members only, Faculty exempt)
+  
+  form(method='POST', action='/transactions/issue')
+    .form-group
+      label(for='bookId') Select Book
+      select.form-control(name='bookId', required, onchange='updateDueDate()')
+        option(value='') Choose a book
+        each book in books
+          option(value=book._id, data-category=book.category) #{book.title} by #{book.author} - #{book.category} (#{book.availableCopies} available)
+    
+    .form-group
+      label(for='memberId') Select Member/Faculty
+      select.form-control(name='memberId', required, onchange='updateMemberType()')
+        option(value='') Choose a member or faculty
+        optgroup(label='Members (Max 3 books)')
+          each member in members
+            option(value=member._id, data-type='Member') #{member.name} (#{member.membershipId})
+        optgroup(label='Faculty (Max 10 books, No fines)')
+          each fac in faculty
+            option(value=fac._id, data-type='Faculty') #{fac.name} (#{fac.facultyId})
+      input(type='hidden', name='memberType', id='memberType')
+    
+    .due-date-info
+      p#dueDateDisplay Due Date: Select a book to see due date
+    
+    .form-actions
+      button.btn.btn-primary(type='submit') Issue Book
+      a.btn.btn-secondary(href='/transactions') Cancel
+  
+  script.
+    function updateDueDate() {
+      const bookSelect = document.querySelector('select[name="bookId"]');
+      const selectedOption = bookSelect.options[bookSelect.selectedIndex];
+      const category = selectedOption.getAttribute('data-category');
+      
+      if (category) {
+        const loanPeriods = {
+          'Fiction': 14,
+          'Non-Fiction': 21,
+          'Science': 28,
+          'Technology': 28,
+          'History': 21
+        };
+        
+        const days = loanPeriods[category] || 14;
+        const dueDate = new Date();
+        dueDate.setDate(dueDate.getDate() + days);
+        
+        document.getElementById('dueDateDisplay').textContent = 
+          `Due Date: ${dueDate.toDateString()} (${days} days from today)`;
+      } else {
+        document.getElementById('dueDateDisplay').textContent = 
+          'Due Date: Select a book to see due date';
+      }
+    }
+    
+    function updateMemberType() {
+      const memberSelect = document.querySelector('select[name="memberId"]');
+      const selectedOption = memberSelect.options[memberSelect.selectedIndex];
+      const memberType = selectedOption.getAttribute('data-type');
+      document.getElementById('memberType').value = memberType || '';
+    }

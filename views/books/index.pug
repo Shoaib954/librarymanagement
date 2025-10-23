@@ -1,0 +1,36 @@
+extends ../layout
+
+block content
+  .page-header
+    if isAdmin
+      a.btn.btn-primary(href='/books/new') Add New Book
+  
+  if books.length > 0
+    table.data-table
+      thead
+        tr
+          th Title
+          th Author
+          th ISBN
+          th Category
+          th Available/Total
+          if isAdmin
+            th Actions
+      tbody
+        each book in books
+          tr
+            td= book.title
+            td= book.author
+            td= book.isbn
+            td= book.category
+            td #{book.availableCopies}/#{book.totalCopies}
+            if isAdmin
+              td
+                a.btn.btn-sm(href=`/books/${book._id}`) View
+                a.btn.btn-sm.btn-warning(href=`/books/${book._id}/edit`) Edit
+                form.inline-form(method='POST', action=`/books/${book._id}?_method=DELETE`)
+                  button.btn.btn-sm.btn-danger(type='submit', onclick='return confirm("Delete this book?")') Delete
+  else
+    p.no-data No books found.
+      if isAdmin
+        a(href='/books/new') Add the first book.

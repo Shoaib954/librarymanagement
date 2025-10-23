@@ -1,0 +1,43 @@
+extends ../layout
+
+block content
+  if !book
+    .error Book not found
+    a.btn(href='/books') Back to Books
+  else
+    if error
+      .alert.alert-error= error
+    
+    form(method='POST', action=`/books/${book._id}?_method=PUT`)
+      .form-group
+        label(for='title') Title
+        input.form-control(type='text', name='title', value=book.title, required)
+      
+      .form-group
+        label(for='author') Author
+        input.form-control(type='text', name='author', value=book.author, required)
+      
+      .form-group
+        label(for='isbn') ISBN
+        input.form-control(type='text', name='isbn', value=book.isbn, required)
+      
+      .form-group
+        label(for='category') Category
+        select.form-control(name='category', required)
+          option(value='Fiction', selected=book.category === 'Fiction') Fiction
+          option(value='Non-Fiction', selected=book.category === 'Non-Fiction') Non-Fiction
+          option(value='Science', selected=book.category === 'Science') Science
+          option(value='Technology', selected=book.category === 'Technology') Technology
+          option(value='History', selected=book.category === 'History') History
+      
+      .form-group
+        label(for='totalCopies') Total Copies
+        input.form-control(type='number', name='totalCopies', value=book.totalCopies, min='1', required)
+      
+      .form-group
+        label(for='publishedYear') Published Year
+        input.form-control(type='number', name='publishedYear', value=book.publishedYear, min='1900', max='2024')
+    
+      .form-actions
+        button.btn.btn-primary(type='submit') Update Book
+        a.btn.btn-secondary(href='/books') Cancel

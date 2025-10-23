@@ -1,0 +1,35 @@
+extends ../layout
+
+block content
+  .page-header
+    a.btn.btn-primary(href='/transactions/issue') Issue Book
+  
+  if transactions.length > 0
+    table.data-table
+      thead
+        tr
+          th Book
+          th Member
+          th Type
+          th Issue Date
+          th Due Date
+          th Status
+          th Fine
+          th Actions
+      tbody
+        each transaction in transactions
+          tr
+            td= transaction.book ? transaction.book.title : 'Book not found'
+            td= transaction.member ? transaction.member.name : 'Member not found'
+            td= transaction.type
+            td= transaction.issueDate.toDateString()
+            td= transaction.dueDate.toDateString()
+            td= transaction.status
+            td $#{transaction.fine}
+            td
+              if transaction.status === 'active'
+                form.inline-form(method='POST', action=`/transactions/${transaction._id}/return`)
+                  button.btn.btn-sm.btn-success(type='submit') Return
+  else
+    p.no-data No transactions found. 
+      a(href='/transactions/issue') Issue the first book.

@@ -1,0 +1,29 @@
+extends ../layout
+
+block content
+  if book
+    .book-details
+      h2= book.title
+      p
+        strong Author: 
+        = book.author
+      p
+        strong ISBN: 
+        = book.isbn
+      p
+        strong Category: 
+        = book.category
+      p
+        strong Copies: 
+        = book.availableCopies + '/' + book.totalCopies
+      if book.publishedYear
+        p
+          strong Published Year: 
+          = book.publishedYear
+      
+      .actions
+        a.btn.btn-warning(href=`/books/${book._id}/edit`) Edit
+        a.btn.btn-secondary(href='/books') Back to Books
+  else
+    .error Book not found
+    a.btn(href='/books') Back to Books

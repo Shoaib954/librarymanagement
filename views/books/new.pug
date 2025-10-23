@@ -1,0 +1,44 @@
+extends ../layout
+
+block content
+  if error
+    .alert.alert-error= error
+  
+  form(method='POST', action='/books')
+    .form-group
+      label(for='title') Title
+      input.form-control(type='text', name='title', required)
+    
+    .form-group
+      label(for='author') Author
+      input.form-control(type='text', name='author', required)
+    
+    .form-group
+      label(for='isbn') ISBN
+      input.form-control(type='text', name='isbn', required)
+    
+    .form-group
+      label(for='category') Category
+      select.form-control(name='category', required)
+        option(value='') Select Category
+        option(value='Fiction') Fiction
+        option(value='Non-Fiction') Non-Fiction
+        option(value='Science') Science
+        option(value='Technology') Technology
+        option(value='History') History
+    
+    .form-group
+      label(for='totalCopies') Total Copies
+      input.form-control(type='number', name='totalCopies', min='1', value='1', required)
+    
+    .form-group
+      label(for='publishedYear') Published Year
+      input.form-control(type='number', name='publishedYear', min='1900', max='2024')
+    
+    .form-group
+      label(for='imageUrl') Book Cover Image URL
+      input.form-control(type='url', name='imageUrl', placeholder='https://example.com/book-cover.jpg')
+    
+    .form-actions
+      button.btn.btn-primary(type='submit') Add Book
+      a.btn.btn-secondary(href='/books') Cancel

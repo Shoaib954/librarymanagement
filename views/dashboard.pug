@@ -1,0 +1,32 @@
+extends layout
+
+block content
+  .welcome-section
+    h2 Welcome, #{user.name}!
+    p Role: #{user.role === 'admin' ? 'Library Administrator' : 'Library Member'}
+    if user.membershipId
+      p Membership ID: #{user.membershipId}
+  
+  .dashboard
+    .stats
+      .stat-card
+        h3 Total Books
+        p#totalBooks 0
+      .stat-card
+        h3 Total Members
+        p#totalMembers 0
+      .stat-card
+        h3 Active Issues
+        p#activeIssues 0
+    
+    .quick-actions
+      h2 Quick Actions
+      .actions
+        if user.role === 'admin'
+          a.btn.btn-primary(href='/books/new') Add New Book
+          a.btn.btn-secondary(href='/members/new') Add New Member
+          a.btn.btn-success(href='/transactions/issue') Issue Book
+        else
+          a.btn.btn-primary(href='/books/browse') Browse Books
+          a.btn.btn-secondary(href='/my-transactions') My Transactions
+          a.btn.btn-success(href='/profile') My Profile
