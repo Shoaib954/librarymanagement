@@ -10,8 +10,7 @@ const sampleBooks = [
     category: "Fiction",
     totalCopies: 3,
     availableCopies: 3,
-    publishedYear: 1960,
-    imageUrl: "https://covers.openlibrary.org/b/isbn/9780061120084-L.jpg"
+    publishedYear: 1960
   },
   {
     title: "1984",
@@ -20,8 +19,7 @@ const sampleBooks = [
     category: "Fiction",
     totalCopies: 4,
     availableCopies: 4,
-    publishedYear: 1949,
-    imageUrl: "https://covers.openlibrary.org/b/isbn/9780452284234-L.jpg"
+    publishedYear: 1949
   },
   {
     title: "The Great Gatsby",
@@ -30,8 +28,7 @@ const sampleBooks = [
     category: "Fiction",
     totalCopies: 2,
     availableCopies: 2,
-    publishedYear: 1925,
-    imageUrl: "https://covers.openlibrary.org/b/isbn/9780743273565-L.jpg"
+    publishedYear: 1925
   },
   {
     title: "Pride and Prejudice",
@@ -40,8 +37,7 @@ const sampleBooks = [
     category: "Fiction",
     totalCopies: 3,
     availableCopies: 3,
-    publishedYear: 1813,
-    imageUrl: "https://covers.openlibrary.org/b/isbn/9780141439518-L.jpg"
+    publishedYear: 1813
   },
   {
     title: "The Catcher in the Rye",
@@ -50,8 +46,7 @@ const sampleBooks = [
     category: "Fiction",
     totalCopies: 2,
     availableCopies: 2,
-    publishedYear: 1951,
-    imageUrl: "https://covers.openlibrary.org/b/isbn/9780316769488-L.jpg"
+    publishedYear: 1951
   },
   {
     title: "A Brief History of Time",
@@ -60,8 +55,7 @@ const sampleBooks = [
     category: "Science",
     totalCopies: 2,
     availableCopies: 2,
-    publishedYear: 1988,
-    imageUrl: "https://covers.openlibrary.org/b/isbn/9780553380163-L.jpg"
+    publishedYear: 1988
   },
   {
     title: "Clean Code",
@@ -70,8 +64,7 @@ const sampleBooks = [
     category: "Technology",
     totalCopies: 3,
     availableCopies: 3,
-    publishedYear: 2008,
-    imageUrl: "https://covers.openlibrary.org/b/isbn/9780132350884-L.jpg"
+    publishedYear: 2008
   },
   {
     title: "Sapiens",
@@ -80,8 +73,7 @@ const sampleBooks = [
     category: "History",
     totalCopies: 4,
     availableCopies: 4,
-    publishedYear: 2011,
-    imageUrl: "https://covers.openlibrary.org/b/isbn/9780062316097-L.jpg"
+    publishedYear: 2011
   },
   {
     title: "The Art of War",
@@ -90,8 +82,7 @@ const sampleBooks = [
     category: "Non-Fiction",
     totalCopies: 2,
     availableCopies: 2,
-    publishedYear: -500,
-    imageUrl: "https://covers.openlibrary.org/b/isbn/9781590309636-L.jpg"
+    publishedYear: -500
   },
   {
     title: "JavaScript: The Good Parts",
@@ -100,8 +91,7 @@ const sampleBooks = [
     category: "Technology",
     totalCopies: 3,
     availableCopies: 3,
-    publishedYear: 2008,
-    imageUrl: "https://covers.openlibrary.org/b/isbn/9780596517748-L.jpg"
+    publishedYear: 2008
   }
 ];
 

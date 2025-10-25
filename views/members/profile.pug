@@ -4,7 +4,10 @@ block content
   .profile-card
     .profile-header
       h2= member.name
-      p.membership-id Membership ID: #{member.membershipId}
+      if member.membershipId
+        p.membership-id Membership ID: #{member.membershipId}
+      if member.facultyId
+        p.membership-id Faculty ID: #{member.facultyId}
     
     .profile-details
       .detail-row
@@ -13,9 +16,14 @@ block content
       .detail-row
         strong Phone: 
         span= member.phone
-      .detail-row
-        strong Address: 
-        span= member.address
+      if member.address
+        .detail-row
+          strong Address: 
+          span= member.address
+      if member.department
+        .detail-row
+          strong Department: 
+          span= member.department
       .detail-row
         strong Member Since: 
         span= member.createdAt.toDateString()

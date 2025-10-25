@@ -54,7 +54,21 @@ exports.myTransactions = async (req, res) => {
 
 exports.profile = async (req, res) => {
   try {
-    const member = await Member.findById(req.session.user.id).select('-password');
+    const userId = req.session.user.id;
+    const userRole = req.session.user.role;
+    
+    let member;
+    if (userRole === 'faculty') {
+      const Faculty = require('../models/Faculty');
+      member = await Faculty.findById(userId).select('-password');
+    } else {
+      member = await Member.findById(userId).select('-password');
+    }
+    
+    if (!member) {
+      return res.render('error', { error: 'Profile not found' });
+    }
+    
     res.render('members/profile', { member, title: 'My Profile' });
   } catch (error) {
     res.render('error', { error: error.message });

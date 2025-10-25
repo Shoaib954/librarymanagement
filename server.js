@@ -43,9 +43,8 @@ app.get('/', (req, res) => {
   res.redirect('/auth/login');
 });
 
-app.get('/dashboard', requireAuth, (req, res) => {
-  res.render('dashboard', { title: 'Dashboard - Library Management' });
-});
+const dashboardController = require('./controllers/dashboardController');
+app.get('/dashboard', requireAuth, dashboardController.dashboard);
 
 app.use('/auth', require('./routes/auth'));
 app.use('/api', require('./routes/api'));

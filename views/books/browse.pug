@@ -1,8 +1,26 @@
 extends ../layout
 
 block content
-  if books.length > 0
-    .books-grid
+  .search-filters
+    .search-bar
+      input#searchInput(type='text', placeholder='Search books by title or author...', onkeyup='filterBooks()')
+    .filter-options
+      select#categoryFilter(onchange='filterBooks()')
+        option(value='') All Categories
+        option(value='Fiction') Fiction
+        option(value='Non-Fiction') Non-Fiction
+        option(value='Science') Science
+        option(value='Technology') Technology
+        option(value='History') History
+      select#sortFilter(onchange='filterBooks()')
+        option(value='title') Sort by Title
+        option(value='author') Sort by Author
+        option(value='year') Sort by Year
+        option(value='available') Sort by Availability
+  
+  #booksContainer
+    if books.length > 0
+      .books-grid
       each book in books
         .book-card
           .book-cover
@@ -27,6 +45,65 @@ block content
                 strong Year: 
                 = book.publishedYear
             .book-status
-              span.available ✅ Available
-  else
-    p.no-data No books available for borrowing.
+              if book.availableCopies > 0
+                span.available ✅ Available
+              else
+                span.unavailable ❌ Not Available
+    else
+      p.no-data No books available for borrowing.
+  
+  script.
+    let allBooks = !{JSON.stringify(books)};
+    
+    function filterBooks() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const categoryFilter = document.getElementById('categoryFilter').value;
+      const sortFilter = document.getElementById('sortFilter').value;
+      
+      let filteredBooks = allBooks.filter(book => {
+        const matchesSearch = book.title.toLowerCase().includes(searchTerm) || 
+                            book.author.toLowerCase().includes(searchTerm);
+        const matchesCategory = !categoryFilter || book.category === categoryFilter;
+        return matchesSearch && matchesCategory;
+      });
+      
+      // Sort books
+      filteredBooks.sort((a, b) => {
+        switch(sortFilter) {
+          case 'author': return a.author.localeCompare(b.author);
+          case 'year': return (b.publishedYear || 0) - (a.publishedYear || 0);
+          case 'available': return b.availableCopies - a.availableCopies;
+          default: return a.title.localeCompare(b.title);
+        }
+      });
+      
+      displayBooks(filteredBooks);
+    }
+    
+    function displayBooks(books) {
+      const container = document.querySelector('.books-grid');
+      if (books.length === 0) {
+        container.innerHTML = '<p class="no-data">No books found matching your criteria.</p>';
+        return;
+      }
+      
+      container.innerHTML = books.map(book => `
+        <div class="book-card">
+          <div class="book-cover">
+            <div class="book-initial">${book.title.charAt(0)}</div>
+          </div>
+          <div class="book-info">
+            <h3>${book.title}</h3>
+            <p><strong>Author:</strong> ${book.author}</p>
+            <p><strong>Category:</strong> ${book.category}</p>
+            <p><strong>Available:</strong> ${book.availableCopies}/${book.totalCopies}</p>
+            ${book.publishedYear ? `<p><strong>Year:</strong> ${book.publishedYear}</p>` : ''}
+            <div class="book-status">
+              ${book.availableCopies > 0 ? 
+                '<span class="available">✅ Available</span>' : 
+                '<span class="unavailable">❌ Not Available</span>'}
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }

@@ -3,21 +3,85 @@ extends layout
 block content
   .welcome-section
     h2 Welcome, #{user.name}!
-    p Role: #{user.role === 'admin' ? 'Library Administrator' : 'Library Member'}
+    p Role: #{user.role === 'admin' ? 'Library Administrator' : user.role === 'faculty' ? 'Faculty Member' : 'Library Member'}
     if user.membershipId
       p Membership ID: #{user.membershipId}
+    if user.facultyId
+      p Faculty ID: #{user.facultyId}
   
   .dashboard
-    .stats
-      .stat-card
-        h3 Total Books
-        p#totalBooks 0
-      .stat-card
-        h3 Total Members
-        p#totalMembers 0
-      .stat-card
-        h3 Active Issues
-        p#activeIssues 0
+    if user.role === 'admin'
+      .stats
+        .stat-card
+          h3 Total Books
+          p= stats.totalBooks
+        .stat-card
+          h3 Total Users
+          p= stats.totalMembers
+        .stat-card
+          h3 Active Issues
+          p= stats.activeTransactions
+        .stat-card
+          h3 Overdue Books
+          p.overdue= stats.overdueTransactions
+      
+      .recent-activity
+        h3 Recent Transactions
+        if recentTransactions && recentTransactions.length > 0
+          table.data-table
+            thead
+              tr
+                th Book
+                th Member
+                th Type
+                th Date
+            tbody
+              each transaction in recentTransactions
+                tr
+                  td= transaction.book ? transaction.book.title : 'N/A'
+                  td= transaction.member ? transaction.member.name : 'N/A'
+                  td= transaction.type
+                  td= transaction.createdAt.toDateString()
+        else
+          p No recent transactions
+      
+      if popularBooks && popularBooks.length > 0
+        .popular-books
+          h3 Most Popular Books
+          ul
+            each item in popularBooks
+              li #{item.book.title} (#{item.count} issues)
+    else
+      .stats
+        .stat-card
+          h3 Books Borrowed
+          p= userStats.activeBooks
+        .stat-card
+          h3 Book Limit
+          p= userStats.maxBooks
+        .stat-card
+          h3 Overdue Books
+          p.overdue= userStats.overdueBooks
+      
+      .recent-activity
+        h3 My Recent Transactions
+        if recentTransactions && recentTransactions.length > 0
+          table.data-table
+            thead
+              tr
+                th Book
+                th Category
+                th Status
+                th Date
+            tbody
+              each transaction in recentTransactions
+                tr(class=transaction.status === 'active' && transaction.dueDate < new Date() ? 'overdue-row' : '')
+                  td= transaction.book.title
+                  td= transaction.book.category
+                  td= transaction.status
+                  td= transaction.createdAt.toDateString()
+        else
+          p No transactions yet
     
     .quick-actions
       h2 Quick Actions
@@ -26,6 +90,7 @@ block content
           a.btn.btn-primary(href='/books/new') Add New Book
           a.btn.btn-secondary(href='/members/new') Add New Member
           a.btn.btn-success(href='/transactions/issue') Issue Book
+          a.btn.btn-warning(href='/transactions') View All Transactions
         else
           a.btn.btn-primary(href='/books/browse') Browse Books
           a.btn.btn-secondary(href='/my-transactions') My Transactions
