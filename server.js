@@ -51,6 +51,7 @@ app.use('/api', require('./routes/api'));
 app.use('/books', requireAuth, require('./routes/books'));
 app.use('/members', requireAuth, requireAdmin, require('./routes/members'));
 app.use('/transactions', requireAuth, requireAdmin, require('./routes/transactions'));
+app.use('/overdue', requireAuth, requireAdmin, require('./routes/overdue'));
 
 // Member-specific routes
 const memberController = require('./controllers/memberController');

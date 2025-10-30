@@ -82,6 +82,8 @@ App runs on http://localhost:4200
 - `POST /api/transactions/issue` - Issue book
 - `GET /api/loan-periods` - Get loan periods by category
 - `POST /api/calculate-due-date` - Calculate due date for a book
+- `GET /overdue` - View overdue members and fines
+- `GET /overdue/api` - Get overdue members data (JSON)
 
 ## Access Points
 - **Login Page**: http://localhost:3002 (redirects to login)
